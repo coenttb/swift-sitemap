@@ -1,53 +1,143 @@
-# swift-web: A Modular Web Foundation in Swift
+# Swift Sitemap
 
-`swift-web` is an open source collection of modular and composable tools to simplify web development in Swift.
+A Swift package for generating XML sitemaps following the [sitemaps.org](https://www.sitemaps.org/) protocol.
 
-## Features and Modules
+## Features
 
-swift-web is modular by design. Here's an overview of its core components:
-
-### **Favicon**
-- Handles favicon generation and routing with minimal effort.
-
-### **Sitemap**
-- Tools for building and serving a sitemap for your website.
-
-### **UrlFormCoding**
-- Encodes and decodes URL-encoded forms for easy form handling.
+- **Type-safe API** for creating XML sitemaps
+- **Full metadata support** including `lastmod`, `changefreq`, and `priority`
+- **Flexible URL generation** with router-based initialization
+- **Swift 5.9 and 6.0 compatibility**
+- **Zero dependencies**
 
 ## Installation
 
-To use **swift-web** in your project, add it to your `Package.swift` dependencies:
+Add swift-sitemap to your Swift package dependencies in `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/swift-web.git", branch: "main")
+    .package(url: "https://github.com/coenttb/swift-sitemap.git", from: "0.0.1")
 ]
 ```
 
-## Related projects
+## Usage
+
+### Basic Usage
+
+```swift
+import Sitemap
+
+// Create URLs with metadata
+let urls = [
+    Sitemap.URL(
+        location: URL(string: "https://example.com")!,
+        lastModification: Date(),
+        changeFrequency: .daily,
+        priority: 1.0
+    ),
+    Sitemap.URL(
+        location: URL(string: "https://example.com/about")!,
+        changeFrequency: .monthly,
+        priority: 0.8
+    )
+]
+
+// Generate sitemap
+let sitemap = Sitemap(urls: urls)
+let xmlString = sitemap.xml
+```
+
+### Router-based Generation
+
+For larger sites, use the router-based approach:
+
+```swift
+enum Page {
+    case home, about, contact
+}
+
+let router: (Page) -> URL = { page in
+    switch page {
+    case .home: return URL(string: "https://example.com")!
+    case .about: return URL(string: "https://example.com/about")!
+    case .contact: return URL(string: "https://example.com/contact")!
+    }
+}
+
+let metadata: [Page: Sitemap.URL.MetaData] = [
+    .home: Sitemap.URL.MetaData(changeFrequency: .daily, priority: 1.0),
+    .about: Sitemap.URL.MetaData(changeFrequency: .monthly, priority: 0.8),
+    .contact: Sitemap.URL.MetaData(changeFrequency: .yearly, priority: 0.5)
+]
+
+let urls = [Sitemap.URL](router: router, metadata)
+let sitemap = Sitemap(urls: urls)
+```
+
+### Generated XML
+
+The package generates standard XML sitemap format:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://example.com</loc>
+<lastmod>2025-01-15</lastmod>
+<changefreq>daily</changefreq>
+<priority>1.0</priority>
+</url>
+<url>
+<loc>https://example.com/about</loc>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+</urlset>
+```
+
+## API Reference
+
+### `Sitemap`
+
+The main struct for creating XML sitemaps.
+
+- `init(urls: [Sitemap.URL])` - Create sitemap with array of URLs
+- `xml: String` - Generate XML string representation
+
+### `Sitemap.URL`
+
+Represents a single URL entry in the sitemap.
+
+- `location: Foundation.URL` - The URL location
+- `metadata: MetaData` - Associated metadata
+
+### `Sitemap.URL.MetaData`
+
+Contains optional sitemap metadata:
+
+- `lastModification: Date?` - When the page was last modified
+- `changeFrequency: ChangeFrequency?` - How frequently the page changes
+- `priority: Float?` - Priority relative to other URLs (0.0-1.0)
+
+### `Sitemap.URL.ChangeFrequency`
+
+Enum for change frequency values:
+- `.always`, `.hourly`, `.daily`, `.weekly`, `.monthly`, `.yearly`, `.never`
+
+## Related Projects
 
 ### The coenttb stack
 
-* [swift-css](https://www.github.com/coenttb/swift-css): A Swift DSL for type-safe CSS.
-* [swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for type-safe HTML & CSS, integrating [swift-css](https://www.github.com/coenttb/swift-css) and [pointfree-html](https://www.github.com/coenttb/pointfree-html).
-* [swift-web](https://www.github.com/coenttb/swift-web): Foundational tools for web development in Swift.
-* [coenttb-html](https://www.github.com/coenttb/coenttb-html): Builds on [swift-html](https://www.github.com/coenttb/swift-html), and adds functionality for HTML, Markdown, Email, and printing HTML to PDF.
-* [coenttb-web](https://www.github.com/coenttb/coenttb-web): Builds on [swift-web](https://www.github.com/coenttb/swift-web), and adds functionality for web development.
-* [coenttb-server](https://www.github.com/coenttb/coenttb-server): Build fast, modern, and safe servers that are a joy to write. `coenttb-server` builds on [coenttb-web](https://www.github.com/coenttb/coenttb-web), and adds functionality for server development.
-* [coenttb-vapor](https://www.github.com/coenttb/coenttb-server-vapor): `coenttb-server-vapor` builds on [coenttb-server](https://www.github.com/coenttb/coenttb-server), and adds functionality and integrations with Vapor and Fluent.
-* [coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): The backend server for coenttb.com, written entirely in Swift and powered by [coenttb-server-vapor](https://www.github.com/coenttb-server-vapor).
+* [swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for domain accurate, type-safe HTML & CSS.
+* [coenttb-web](https://www.github.com/coenttb/coenttb-web): Web development in Swift.
+* [coenttb-server](https://www.github.com/coenttb/coenttb-server): Server development in Swift.
+* [coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): the source code for [coenttb.com](https://coenttb.com) built on coenttb-server.
 
-### PointFree foundations
-* [coenttb/pointfree-html](https://www.github.com/coenttb/pointfree-html): A Swift DSL for type-safe HTML, forked from [pointfreeco/swift-html](https://www.github.com/pointfreeco/swift-html) and updated to the version on [pointfreeco/pointfreeco](https://github.com/pointfreeco/pointfreeco).
-* [coenttb/pointfree-web](https://www.github.com/coenttb/pointfree-html): Foundational tools for web development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
-* [coenttb/pointfree-server](https://www.github.com/coenttb/pointfree-html): Foundational tools for server development in Swift, forked from  [pointfreeco/swift-web](https://www.github.com/pointfreeco/swift-web).
+## Feedback and Contributions
 
-## Feedback is Much Appreciated!
-  
-If you’re working on your own Swift web project, feel free to learn, fork, and contribute.
+If you're working on your own Swift web project, feel free to learn, fork, and contribute.
 
-Got thoughts? Found something you love? Something you hate? Let me know! Your feedback helps make this project better for everyone. Open an issue or start a discussion—I’m all ears.
+Got thoughts? Found something you love? Something you hate? Let me know! Your feedback helps make this project better for everyone. Open an issue or start a discussion—I'm all ears.
 
 > [Subscribe to my newsletter](http://coenttb.com/en/newsletter/subscribe)
 >
