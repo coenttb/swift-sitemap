@@ -1,14 +1,17 @@
-# Swift Sitemap
+# swift-sitemap
+
+[![CI](https://github.com/coenttb/swift-sitemap/workflows/CI/badge.svg)](https://github.com/coenttb/swift-sitemap/actions/workflows/ci.yml)
+![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
 A Swift package for generating XML sitemaps following the [sitemaps.org](https://www.sitemaps.org/) protocol.
 
 ## Features
 
-- **Type-safe API** for creating XML sitemaps
-- **Full metadata support** including `lastmod`, `changefreq`, and `priority`
-- **Flexible URL generation** with router-based initialization
-- **Swift 5.9 and 6.0 compatibility**
-- **Zero dependencies**
+- Type-safe API for creating XML sitemaps
+- Full metadata support including `lastmod`, `changefreq`, and `priority`
+- Flexible URL generation with router-based initialization
+- Swift 5.9 and 6.0 compatibility
+- Zero dependencies
 
 ## Installation
 
@@ -20,9 +23,7 @@ dependencies: [
 ]
 ```
 
-## Usage
-
-### Basic Usage
+## Quick Start
 
 ```swift
 import Sitemap
@@ -46,6 +47,8 @@ let urls = [
 let sitemap = Sitemap(urls: urls)
 let xmlString = sitemap.xml
 ```
+
+## Usage
 
 ### Router-based Generation
 
@@ -124,27 +127,16 @@ Contains optional sitemap metadata:
 Enum for change frequency values:
 - `.always`, `.hourly`, `.daily`, `.weekly`, `.monthly`, `.yearly`, `.never`
 
-## Related Projects
+## Related Packages
 
-### The coenttb stack
-
-* [swift-html](https://www.github.com/coenttb/swift-html): A Swift DSL for domain accurate, type-safe HTML & CSS.
-* [coenttb-web](https://www.github.com/coenttb/coenttb-web): Web development in Swift.
-* [coenttb-server](https://www.github.com/coenttb/coenttb-server): Server development in Swift.
-* [coenttb-com-server](https://www.github.com/coenttb/coenttb-com-server): the source code for [coenttb.com](https://coenttb.com) built on coenttb-server.
-
-## Feedback and Contributions
-
-If you're working on your own Swift web project, feel free to learn, fork, and contribute.
-
-Got thoughts? Found something you love? Something you hate? Let me know! Your feedback helps make this project better for everyone. Open an issue or start a discussion—I'm all ears.
-
-> [Subscribe to my newsletter](http://coenttb.com/en/newsletter/subscribe)
->
-> [Follow me on X](http://x.com/coenttb)
-> 
-> [Link on Linkedin](https://www.linkedin.com/in/tenthijeboonkkamp)
+- [swift-html](https://github.com/coenttb/swift-html): A Swift DSL for type-safe HTML & CSS
+- [coenttb-web](https://github.com/coenttb/coenttb-web): Web development tools and utilities in Swift
+- [coenttb-server](https://github.com/coenttb/coenttb-server): Server-side Swift development framework
 
 ## License
 
-This project is licensed under the **Apache 2.0 License**. See the [LICENSE](LICENSE).
+This project is licensed under the **Apache 2.0 License**. See [LICENSE](LICENSE) for details.
+
+## Contributing
+
+Contributions are welcome. Please open an issue or submit a pull request.
