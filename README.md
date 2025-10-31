@@ -133,7 +133,9 @@ Enum for change frequency values:
 
 ## Related Packages
 
-- [swift-html](https://github.com/coenttb/swift-html): The Swift library for domain-accurate and type-safe HTML & CSS.
+### Used By
+
+- [swift-web-foundation](https://github.com/coenttb/swift-web-foundation): A Swift package with tools to simplify web development.
 
 ## License
 
