@@ -506,7 +506,7 @@ struct IntegrationTests {
 
     @Test("Large sitemap generation performance")
     func largeSitemapPerformance() throws {
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date()
 
         // Generate 1000 URLs
         var urls: [Sitemap.URL] = []
@@ -523,7 +523,7 @@ struct IntegrationTests {
         let sitemap = Sitemap(urls: urls)
         let xml = sitemap.xml
 
-        let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+        let timeElapsed = Date().timeIntervalSince(startTime)
 
         // Verify structure
         #expect(urls.count == 1000)
