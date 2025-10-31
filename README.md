@@ -5,11 +5,15 @@
 
 A Swift package for generating XML sitemaps following the [sitemaps.org](https://www.sitemaps.org/) protocol.
 
+## Overview
+
+swift-sitemap provides a type-safe API for creating XML sitemap files. It supports all standard sitemap metadata fields and includes a router-based URL generation pattern for structured sitemap creation.
+
 ## Features
 
 - Type-safe API for creating XML sitemaps
 - Full metadata support including `lastmod`, `changefreq`, and `priority`
-- Flexible URL generation with router-based initialization
+- Router-based URL generation with dictionary-based metadata mapping
 - Swift 5.9 and 6.0 compatibility
 - Zero dependencies
 
